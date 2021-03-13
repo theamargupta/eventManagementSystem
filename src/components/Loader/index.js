@@ -1,30 +1,26 @@
 import React from 'react';
-import ContentLoader from 'react-content-loader';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Grid = (props) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '100vh',
+    width: '100vw',
+    alignItems: 'center',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
+
+export default function CircularIndeterminate() {
+  const classes = useStyles();
+
   return (
-    <ContentLoader
-      viewBox='0 0 820 450'
-      height={450}
-      width={820}
-      speed={2}
-      {...props}
-    >
-      <rect x='10' y='10' rx='5' ry='5' width='260' height='140' />
-      <rect x='280' y='10' rx='5' ry='5' width='260' height='280' />
-      <rect x='550' y='10' rx='5' ry='5' width='260' height='140' />
-      <rect x='10' y='160' rx='5' ry='5' width='260' height='280' />
-      <rect x='280' y='300' rx='5' ry='5' width='260' height='140' />
-      <rect x='550' y='160' rx='5' ry='5' width='260' height='280' />
-    </ContentLoader>
+    <div className={classes.root}>
+      <CircularProgress size={100} thickness={5} />
+    </div>
   );
-};
-
-Grid.metadata = {
-  name: 'baptiste fkt',
-  github: 'baptistefkt',
-  description: 'Three column grid layout',
-  filename: 'Grid',
-};
-
-export default Grid;
+}

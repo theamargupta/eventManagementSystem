@@ -1,9 +1,8 @@
 # Event Management System
 
-Task for NodeJS + ReactJS practical.
+Task for ReactJS practical.
 
 (If performing only for ReactJS, use static data)
-(If performing only for NodeJS, develop only needed APIs)
 
 Purpose of this system is to manage public events.
 
