@@ -5,9 +5,11 @@ const GetProfile = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
+      // eslint-disable-next-line no-sequences
       return setProfile(user), console.log(user);
     }
-  }, [setProfile]);
+  }, []);
+  console.log(profile);
   return <div>GetProfile</div>;
 };
 

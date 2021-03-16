@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Grid,
-  Paper,
   Avatar,
   Typography,
   TextField,
@@ -14,7 +13,6 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AddCircleOutlineOutlinedIcon } from '@material-ui/icons';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { FormHelperText } from '@material-ui/core';
 import * as Yup from 'yup';

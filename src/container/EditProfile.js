@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   Divider,
   Grid,
@@ -14,9 +13,6 @@ import {
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import * as Yup from 'yup';
-import Swal from 'sweetalert2';
-// Componenets
-import RedirectLogin from '../components/RedirectLogin';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const DriverDetails = () => {
-  const history = useHistory();
   const classes = useStyles();
   const {
     initialValues,
@@ -61,7 +56,7 @@ const DriverDetails = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
-      return setProfile(user), console.log(user);
+      return setProfile(user);
     }
   }, [setProfile]);
   useEffect(() => {
