@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-const LoginSignupTab = React.lazy(() =>
-  import('container/CombineLoginSignupTab')
-);
+const Login = React.lazy(() => import('components/Login'));
+const Signup = React.lazy(() => import('components/Signup'));
 const Sidebar = React.lazy(() => import('container/Sidebar'));
 
 const AppRouter = () => {
   return (
     <div>
       <Switch>
-        <Route exact path='/' component={LoginSignupTab} />
-        <Route path='/home' component={Sidebar} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/signup' component={Signup} />
+        <Route path='/' component={Sidebar} />
       </Switch>
     </div>
   );

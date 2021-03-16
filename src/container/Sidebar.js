@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { Link, Switch, Route, useHistory } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -25,6 +25,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import RedirectLogin from '../components/RedirectLogin';
 // Components
 const Dashboard = lazy(() => import('container/Dashboard'));
 const GetProfile = lazy(() => import('container/GetProfile'));
@@ -108,7 +109,14 @@ export default function PersistentDrawerLeft(props) {
   const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [profile, setProfile] = useState({ name: '' });
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      return setProfile(user), console.log(user);
+    }
+  }, [setProfile]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -137,7 +145,7 @@ export default function PersistentDrawerLeft(props) {
   };
   const handleLogOut = () => {
     // localStorage.removeItem('user');
-    history.push('/');
+    history.push('/login');
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -157,9 +165,7 @@ export default function PersistentDrawerLeft(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => history.push('/home/getProfile')}>
-        Profile
-      </MenuItem>
+      <MenuItem onClick={() => history.push('/getProfile')}>Profile</MenuItem>
       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
@@ -265,9 +271,9 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           {[
-            { headerName: 'Dashboard', url: '/home/' },
-            { headerName: 'Get Profile', url: '/home/getProfile' },
-            { headerName: 'Edit Profile', url: '/home/editProfile' },
+            { headerName: 'Dashboard', url: '/' },
+            { headerName: 'Get Profile', url: '/getProfile' },
+            { headerName: 'Edit Profile', url: '/editProfile' },
           ].map((text, index) => (
             <ListItem button key={index} component={Link} to={text.url}>
               <ListItemIcon>
@@ -295,11 +301,15 @@ export default function PersistentDrawerLeft(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Switch>
-          <Route exact path='/home/' component={Dashboard} />
-          <Route exact path='/home/getProfile' component={GetProfile} />
-          <Route exact path='/home/editProfile' component={EditProfile} />
-        </Switch>
+        {!(profile.name.length > 0) ? (
+          <RedirectLogin />
+        ) : (
+          <Switch>
+            <Route exact path='/' component={Dashboard} />
+            <Route exact path='/getProfile' component={GetProfile} />
+            <Route exact path='/editProfile' component={EditProfile} />
+          </Switch>
+        )}
       </main>
     </div>
   );

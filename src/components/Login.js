@@ -1,46 +1,56 @@
 import React from 'react';
-import {
-  Grid,
-  Paper,
-  Avatar,
-  TextField,
-  Button,
-  Typography,
-  Link,
-} from '@material-ui/core';
+import { Grid, Avatar, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import Img from 'assets/event-management-concept-sketch-doodle-horizontal-vector-22928507.jpg';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: 20,
-    height: '73vh',
-    width: 340,
-    margin: '0 auto',
+  mainContainer: {
+    minHeight: '100vh',
   },
-  avatar: { backgroundColor: '#000' },
-  btn: { margin: '8px 0' },
+  subContainer: {
+    padding: theme.spacing(2),
+  },
+  subContainer2: {
+    padding: theme.spacing(2),
+  },
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  avatar: { backgroundColor: '#999' },
+  btn: {
+    marginRight: '10px',
+    padding: theme.spacing(2),
+    borderRadius: '4px',
+    minWidth: '180px',
+    fontSize: '16px',
+  },
+  btnDiv: { display: 'flex' },
   email: {
     margin: '10px 0',
   },
   password: {
     margin: '10px 0',
   },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+  },
 }));
 
-const Login = ({ handleChange }) => {
+const Login = () => {
   const history = useHistory();
   const classes = useStyles();
   const initialValues = {
     email: '',
     password: '',
-    remember: false,
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('please enter valid email').required('Required'),
@@ -52,7 +62,7 @@ const Login = ({ handleChange }) => {
     if (data) {
       data = JSON.parse(data);
       if (data.email === values.email && data.password === values.password) {
-        history.push('/home');
+        history.push('/');
         console.log('login sucess');
       } else {
         console.log(data.email);
@@ -82,73 +92,92 @@ const Login = ({ handleChange }) => {
   };
 
   return (
-    <Grid>
-      <Paper className={classes.paper}>
-        <Grid align='center'>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <h2>Sign In</h2>
-        </Grid>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
-          {(props) => (
-            <Form>
-              <Field
-                as={TextField}
-                label='Email'
-                className={classes.email}
-                variant={'outlined'}
-                name='email'
-                placeholder='Enter Email'
-                fullWidth
-                // required
-
-                helperText={<ErrorMessage name='email' />}
-              />
-              <Field
-                as={TextField}
-                label='Password'
-                className={classes.password}
-                variant={'outlined'}
-                name='password'
-                placeholder='Enter password'
-                type='password'
-                fullWidth
-                // required
-                helperText={<ErrorMessage name='password' />}
-              />
-              <Field
-                mt={2}
-                as={FormControlLabel}
-                name='remember'
-                control={<Checkbox color='primary' />}
-                label='Remember me'
-              />
-              <Button
-                type='submit'
-                color='primary'
-                variant='contained'
-                disabled={props.isSubmitting}
-                className={classes.btn}
-                fullWidth
-              >
-                {props.isSubmitting ? 'Loading' : 'Sign in'}
-              </Button>
-            </Form>
-          )}
-        </Formik>
-        <Typography>
-          New to EMS ?
-          <Link href='#' onClick={() => handleChange('event', 1)}>
-            {' '}
-            Sign up now.
-          </Link>
-        </Typography>
-      </Paper>
+    <Grid container className={classes.mainContainer}>
+      <Grid item xs={12} sm={6}>
+        <img className={classes.img} src={Img} alt='brand' />
+      </Grid>
+      <Grid
+        container
+        item
+        xs={12}
+        sm={6}
+        alignItems='center'
+        direction='column'
+        justify='space-between'
+        spacing={2}
+      >
+        <div />
+        <div>
+          <Grid
+            container
+            direction='column'
+            justify='center'
+            className={classes.subContainer}
+          >
+            <Grid item alignItems='flex-start'>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+            </Grid>
+            <Grid item alignItems='flex-start'>
+              <h2>Welcome back, Please Sign In into your account</h2>
+            </Grid>
+          </Grid>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            {(props) => (
+              <Form className={classes.form}>
+                <Field
+                  as={TextField}
+                  label='Email'
+                  className={classes.email}
+                  variant={'outlined'}
+                  name='email'
+                  placeholder='Enter Email'
+                  // fullWidth
+                  helperText={<ErrorMessage name='email' />}
+                />
+                <Field
+                  as={TextField}
+                  label='Password'
+                  className={classes.password}
+                  variant={'outlined'}
+                  name='password'
+                  placeholder='Enter password'
+                  type='password'
+                  // fullWidth
+                  helperText={<ErrorMessage name='password' />}
+                />
+                <div className={classes.btnDiv}>
+                  <Button
+                    type='submit'
+                    color='primary'
+                    variant='contained'
+                    disabled={props.isSubmitting}
+                    className={classes.btn}
+                    // fullWidth
+                  >
+                    {props.isSubmitting ? 'Loading' : 'Sign in'}
+                  </Button>
+                  <Button
+                    // color='secondary'
+                    variant='contained'
+                    disabled={props.isSubmitting}
+                    className={classes.btn}
+                    onClick={() => history.push('signup')}
+                  >
+                    {'Create Account'}
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+        <div />
+      </Grid>
     </Grid>
   );
 };
